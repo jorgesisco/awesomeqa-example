@@ -1,16 +1,25 @@
-import { Box, Link, Typography } from "@mui/material";
-
+import React from 'react';
+import { AppBar , Toolbar, Button} from '@mui/material';
+import { Box, Typography } from "@mui/material";
+import Link from 'next/link';
 const HomeHeader = () => {
   return (
-    <Link href="/" sx={{ textDecoration: "none", color: "inherit" }}>
-      <Box sx={{ border: 1, justifyContent: "center", mt: 5, borderRadius: 2, padding: 1 }}>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Typography variant="h2" component="div">
-            Awesome tech challenge
+    <AppBar position="static" color="transparent" elevation={0}>
+      <Toolbar>
+        
+        <Box display="flex" flexGrow={1}>
+        <Link href='/'>
+          <Typography variant="h6" component="div" sx={{ cursor: 'pointer' }}>
+            AwesomeQA
           </Typography>
+          </Link>
         </Box>
-      </Box>
-    </Link>
+        
+        <Button color="inherit" href="/about">Messages</Button>
+        <Button color="inherit" href="/pricing">Tasks</Button>
+        <Button variant="contained" href="/dashboard">Dashboard</Button>
+      </Toolbar>
+    </AppBar>
   );
 };
 
