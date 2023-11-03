@@ -2,12 +2,12 @@ from app.repositories.ticket_repository import TicketRepository
 import uvicorn
 from fastapi import Depends, FastAPI
 from fastapi.responses import JSONResponse
-
+from pathlib import Path
 
 app = FastAPI()
 
-TICKET_FILEPATH = "../data/awesome_tickets.json"
-ticket_repository = TicketRepository(filepath=TICKET_FILEPATH)
+TICKET_FILEPATH = (Path(__file__).resolve().parent / "../data/awesome_tickets.json").resolve()
+ticket_repository = TicketRepository(filepath=str(TICKET_FILEPATH))
 
 
 @app.get("/healthz")
