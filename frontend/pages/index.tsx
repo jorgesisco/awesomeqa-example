@@ -3,6 +3,7 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { Button } from "@mui/material";
+import Link from 'next/link';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -20,14 +21,15 @@ const IndexPage = () => {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <Link href="/home">
               <Button
                 variant="contained"
                 color="primary"
-                sx={{ width: "50%", height: "4rem", fontSize: "1.2rem" }}
-                href="/home"
+                sx={{ width: "50%", height: "4rem", fontSize: "1.2rem" }} 
               >
                 Home
               </Button>
+              </Link>
             </Box>
           </Grid>
         </Grid>
