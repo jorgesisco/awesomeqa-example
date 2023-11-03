@@ -15,9 +15,9 @@ const HomeHeader = () => {
           </Link>
         </Box>
         
-        <Button color="inherit" href="/about">Messages</Button>
-        <Button color="inherit" href="/pricing">Tasks</Button>
-        <Button variant="contained" href="/dashboard">Dashboard</Button>
+        <Button color="inherit" href="/">Messages</Button>
+        <Button color="inherit" href="/">Tasks</Button>
+        <Button variant="contained" href="/">Dashboard</Button>
       </Toolbar>
     </AppBar>
   );
