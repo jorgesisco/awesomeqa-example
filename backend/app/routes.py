@@ -22,7 +22,7 @@ async def get_tickets(
 ):
     """Get tickets with pagination."""
     offset = (page - 1) * limit
-    total_tickets = ticket_repository.count_tickets()  # Assuming this method exists
+    total_tickets = ticket_repository.count_tickets()
     tickets_data = ticket_repository.get_tickets(limit=limit, offset=offset)
     tickets = [Ticket(**ticket) for ticket in tickets_data]
 
