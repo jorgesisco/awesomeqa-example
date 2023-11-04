@@ -1,28 +1,15 @@
-from app.repositories.ticket_repository import TicketRepository
+"""Main module for FastAPI application."""""
 import uvicorn
-from fastapi import Depends, FastAPI
-from fastapi.responses import JSONResponse
-from pathlib import Path
+from fastapi import FastAPI
+from app.routes import router
 
+# Initialize FastAPI application
 app = FastAPI()
 
-TICKET_FILEPATH = Path(__file__).resolve().parent / "../data/awesome_tickets.json"
-ticket_repository = TicketRepository(filepath=TICKET_FILEPATH)
-
-
-@app.get("/healthz")
-async def root():
-    return "OK"
-
-
-@app.get("/tickets")
-async def get_tickets(
-    limit: int = 20,
-    ticket_repository: TicketRepository = Depends(lambda: ticket_repository),
-):
-    tickets = ticket_repository.get_tickets(limit)
-    return JSONResponse(tickets, status_code=200)
+# Register router with views
+app.include_router(router)
 
 
 if __name__ == "__main__":
+    # Run application with uvicorn in development
     uvicorn.run("app.main:app", host="0.0.0.0", port=5001, reload=True)
