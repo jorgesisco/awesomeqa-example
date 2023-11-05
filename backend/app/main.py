@@ -12,27 +12,30 @@ from app.routes import router
 from app.utils.rate_limit import limiter
 
 
-# Initialize FastAPI application
-app = FastAPI()
+def create_app() -> FastAPI:
+    # Initialize FastAPI application
+    app = FastAPI()
+
+    # Register the rate limit exceeded handler
+    app.state.limiter = limiter
+    app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+    # Register CORS middleware to allow specific origins
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["http://localhost:3000"],
+        allow_credentials=True,
+        allow_methods=["*"],  # The methods you want to allow
+        allow_headers=["*"],  # The headers you want to allow
+    )
+
+    # Register router with views
+    app.include_router(router)
+
+    return app
 
 
-# Register the rate limit exceeded handler
-app.state.limiter = limiter
-app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
-
-
-# Register CORS middleware to allow specific origins
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
-    allow_credentials=True,
-    allow_methods=["*"],  # The methods you want to allow
-    allow_headers=["*"],  # The headers you want to allow
-)
-
-# Register router with views
-app.include_router(router)
-
+app = create_app()
 
 if __name__ == "__main__":
     # Run application with uvicorn in development
