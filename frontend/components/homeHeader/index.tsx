@@ -17,7 +17,7 @@ const HomeHeader = () => {
         
         <Button color="inherit" href="/">Messages</Button>
         <Button color="inherit" href="/">Tasks</Button>
-        <Button variant="contained" href="/">Dashboard</Button>
+        <Button variant="contained" href="/home">Dashboard</Button>
       </Toolbar>
     </AppBar>
   );
