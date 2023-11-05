@@ -1,9 +1,10 @@
 """Routes module."""
 from app.config import ticket_repository
-from app.models import Ticket, Pagination
+from app.models import TicketPagination, TicketWithMessagePagination
 from app.repositories.ticket_repository import TicketRepository
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends
 
+from app.utils.pagination import response_params, get_paginated_tickets
 
 router = APIRouter()
 
@@ -14,26 +15,32 @@ async def root():
     return {"status": "OK"}
 
 
-@router.get("/tickets")
+@router.get("/tickets", response_model=TicketPagination)
 async def get_tickets(
-        page: int = Query(1, gt=0, description="Page number starting from 1"),
-        limit: int = Query(20, gt=0, description="Number of tickets per page"),
-        ticket_repository: TicketRepository = Depends(lambda: ticket_repository),
+        common: dict = Depends(response_params),
+        ticket_repository: TicketRepository = Depends(lambda: ticket_repository)
 ):
-    """Get tickets with pagination."""
-    offset = (page - 1) * limit
-    total_tickets = ticket_repository.count_items(field="tickets")
+    """Return a list of tickets from json file."""
+    return await get_paginated_tickets(
+        ticket_repository=ticket_repository,
+        page=common['page'],
+        limit=common['limit'],
+        with_messages=False
+    )
 
-    tickets_data = ticket_repository.get_tickets_with_messages(limit=limit, offset=offset)
-    tickets = [Ticket(**ticket) for ticket in tickets_data]
 
-    # Check if the current page is out of range
-    if not tickets and page != 1:
-        raise HTTPException(status_code=404, detail="Page not found")
-
-    return Pagination(
-        total=total_tickets,
-        page=page,
-        limit=limit,
-        data=tickets
+@router.get("/opentickets", response_model=TicketWithMessagePagination)
+async def get_open_tickets(
+        common: dict = Depends(response_params),
+        ticket_repository: TicketRepository = Depends(lambda: ticket_repository)
+):
+    """
+    Return a list of open tickets with their messages
+    from json file
+    """
+    return await get_paginated_tickets(
+        ticket_repository=ticket_repository,
+        page=common['page'],
+        limit=common['limit'],
+        with_messages=True
     )
