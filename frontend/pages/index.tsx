@@ -4,37 +4,23 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { Button } from "@mui/material";
 import Link from 'next/link';
+import CustomButton from '../components/PageButton'
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
 
 const IndexPage = () => {
   return (
-    <>
-      <Box sx={{ flexGrow: 1, mt: 15, mb: 15 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <Link href="/home">
-              <Button
-                variant="contained"
-                color="primary"
-                sx={{ width: "50%", height: "4rem", fontSize: "1.2rem" }} 
-              >
-                Home
-              </Button>
-              </Link>
-            </Box>
-          </Grid>
+    <Box sx={{ flexGrow: 1, mt: 15, mb: 15, display: "flex", height:"50vh"}}>
+    {/* <Box sx={{ flexGrow: 1, mt: 15, mb: 15, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "50vh" }}> */}
+      <Grid container justifyContent="center" alignItems="center">
+        <Grid item xs={12} md={3}>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Link href="/home"><CustomButton Icon={DashboardIcon} label="Go to Dashboard"/></Link>
+          </Box>
         </Grid>
-      </Box>
-    </>
+     
+      </Grid>
+    </Box>
   );
 };
 
