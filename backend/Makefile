@@ -15,6 +15,6 @@ run:
 	python -m app.main
 
 
-cover:
+coverage:
 	pytest --cov=app
 	coverage html
