@@ -21,7 +21,7 @@ async def root(request: Request):
 
 
 @router.get("/tickets", response_model=TicketPagination)
-@limiter.limit("5/minute")
+@limiter.limit("10/minute")
 async def get_tickets(
         request: Request,
         common: dict = Depends(response_params),
@@ -37,7 +37,7 @@ async def get_tickets(
 
 
 @router.get("/opentickets", response_model=TicketWithMessagePagination)
-@limiter.limit("5/minute")
+@limiter.limit("10/minute")
 async def get_open_tickets(
         request: Request,
         common: dict = Depends(response_params),
