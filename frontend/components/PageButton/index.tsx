@@ -21,7 +21,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({ label, Icon, sx, ...props }
         width: '306px',
         height: '130px',
         fontSize: "24px",
-        // minWidth: '100px', // added for responsiveness
+        textTransform: 'none',
         '&:hover': {
           backgroundColor: '#0e0e0e'
         },
