@@ -45,7 +45,7 @@ def test_ticket_model(test_ticket):
 def test_ticket_with_message_model(current_time, test_ticket, test_message):
     """test_ticket and test_message are fixtures defined in backend/test/conftest.py"""
     # Create a dictionary from the test_ticket excluding 'message'
-    ticket_dict = test_ticket.dict(exclude={'message'})
+    ticket_dict = test_ticket.model_dump(exclude={'message'})
 
     ticket_with_message = TicketWithMessage(
         **ticket_dict,
