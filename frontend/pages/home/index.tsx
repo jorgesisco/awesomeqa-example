@@ -7,6 +7,7 @@ import CustomButton from '../../components/PageButton';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined'; // Sample icon
 import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined'; // Sample icon
 import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined'; // Sample icon
+
 const Home: NextPage = () => {
 
   const handleClick = async () => {
