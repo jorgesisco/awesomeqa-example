@@ -1,7 +1,7 @@
 """Models for the API"""
 from datetime import datetime
 from pydantic import BaseModel, Field
-from typing import Optional, List
+from typing import Optional, Dict, Any, List
 
 
 class Author(BaseModel):
@@ -46,7 +46,7 @@ class Ticket(BaseModel):
     ts_last_status_change: Optional[str] = None
     timestamp: datetime
     context_messages: List[str]
-    message: Optional[None] = Field(None)
+    message: Optional[Dict[str, Any]] = Field(None)
 
 
 class TicketWithMessage(Ticket):
