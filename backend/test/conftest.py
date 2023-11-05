@@ -59,6 +59,6 @@ def test_ticket_with_message(test_ticket, test_message):
     the test_ticket and test_message fixtures.
     """
     return TicketWithMessage(
-        **test_ticket.dict(exclude={'message'}),  # Assuming you have a test_ticket fixture
+        **test_ticket.model_dump(exclude={'message'}),  # Assuming you have a test_ticket fixture
         message=test_message  # Assuming you have a test_message fixture
     )
