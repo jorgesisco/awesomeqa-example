@@ -12,7 +12,7 @@ class TicketRepository:
         with open(filepath) as json_file:
             self.data = json.load(json_file)
 
-    def _get_tickets(self, offset: int, limit: Optional[int] = None) -> list[dict]:
+    def get_tickets(self, offset: int, limit: Optional[int] = None) -> list[dict]:
         """
         Return a slice of tickets based on the offset and limit.
         or all tickets if limit is not specified.
@@ -30,16 +30,29 @@ class TicketRepository:
         return self.data["tickets"][offset:offset + limit]
 
     def get_tickets_with_messages(self, limit: int, offset: int) -> list[dict]:
-        # First get the slice of tickets
-        tickets_data = self._get_tickets(limit=limit, offset=offset)
+        """
+        Return a slice of open tickets with their messages based
+        on the offset and limit.
+        """
+        # Get tickets based on offset and limit
+        tickets_data = self.get_tickets(limit=limit, offset=offset)
 
-        # Now, enrich tickets with message data
+        # Open tickets with message data
         for ticket in tickets_data:
-            msg_id = ticket.get('msg_id')  # Assuming your tickets have a 'msg_id' field
-            if msg_id:
-                # Retrieve the corresponding message
-                message_data = self.get_message_by_id(msg_id)
-                ticket['message'] = message_data  # Append the message to the ticket
+            if ticket.get('status') == 'open':
+                msg_id = ticket.get('msg_id')
+                # Ensure msg_id is present before attempting to fetch message
+                if msg_id:
+                    # Retrieve the corresponding message
+                    message_data = self.get_message_by_id(msg_id)
+                    if message_data:
+                        ticket['message'] = message_data
+                else:
+                    # If there's no msg_id or the message is not found, set message to None
+                    ticket['message'] = None
+            else:
+                # For tickets that are not open, set message to None
+                ticket['message'] = None
 
         return tickets_data
 
