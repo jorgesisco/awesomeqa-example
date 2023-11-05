@@ -138,7 +138,7 @@ useEffect(() => {
   const savedTimestamp = localStorage.getItem('ticketsTimestamp');
   const now = Date.now();
 
-  // Set expiration duration to 20 seconds
+  // Set expiration duration to 60 seconds
   const EXPIRATION_DURATION = 60 * 1000; // 60 seconds in milliseconds
 
   // Determine if the saved data has expired
