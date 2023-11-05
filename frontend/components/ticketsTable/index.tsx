@@ -129,45 +129,6 @@ const TicketsTable: React.FC = () => {
       }
   ];
 
-//   useEffect(() => {
-//     // NOTE: Environment variables should typically be used for API endpoints.
-//     // However, for the simplicity of this exercise and to avoid additional setup,
-//     // the endpoint is hardcoded. This should be replaced with a variable in a production environment.
-//     const url = 'http://0.0.0.0:5001/opentickets?page=1&limit=100';
-//     const savedTickets = localStorage.getItem('tickets');
-
-//     if (savedTickets) {
-//         setRows(JSON.parse(savedTickets));
-//         setLoading(false);
-//     } else{
-//         setLoading(true);
-
-//     fetchTickets(url)
-//     .then(data => {
-//         const ticketsData: Ticket[] = data.map((ticket: any) => ({
-//             id: ticket.id,
-//             msg_id: ticket.msg_id,
-//             status: ticket.status,
-//             resolved_by: ticket.resolved_by || 'N/A', // Fallback to 'N/A' if null
-//             timestamp: new Date(ticket.timestamp).toLocaleString(), // Format the timestamp
-//             message_content: ticket.message.content,
-//             message_link: ticket.message.msg_url
-//           }));
-
-//         // Save to local storage if the data is valid
-//         if (ticketsData.length > 0) {
-//             localStorage.setItem('tickets', JSON.stringify(ticketsData));
-//         }
-        
-//         setRows(ticketsData); // Transform data here if needed
-//         setLoading(false);
-//     })
-//     .catch(error => {
-//         setError(error);
-//         setLoading(false);
-//     });
-//     }
-// }, []);
 useEffect(() => {
   // URL for API endpoint
   const url = 'http://0.0.0.0:5001/opentickets?page=1&limit=100';
@@ -178,7 +139,7 @@ useEffect(() => {
   const now = Date.now();
 
   // Set expiration duration to 20 seconds
-  const EXPIRATION_DURATION = 20 * 1000; // 20 seconds in milliseconds
+  const EXPIRATION_DURATION = 60 * 1000; // 60 seconds in milliseconds
 
   // Determine if the saved data has expired
   const isDataExpired = savedTimestamp ? now - parseInt(savedTimestamp, 10) > EXPIRATION_DURATION : true;
@@ -199,6 +160,7 @@ useEffect(() => {
           message_content: ticket.message.content,
           message_link: ticket.message.msg_url
         }));
+        console.log(data)
 
         if (ticketsData.length > 0) {
           // Save the fetched data along with the current timestamp
@@ -217,7 +179,7 @@ useEffect(() => {
 }, []);
 
   return (
-    <div style={{ height: 550, width: '100%' }}>
+    <div style={{ height: 750, width: '100%'}}>
       <div style={{ marginBottom: 8 }}>
         <Button
           variant="contained"
