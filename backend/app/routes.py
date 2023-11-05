@@ -15,9 +15,9 @@ router = APIRouter()
 async def root(request: Request):
     """Health check endpoint."""
     return {
-            "status": "OK",
-            "version": "0.1.0"
-            }
+        "status": "OK",
+        "version": "0.1.0"
+    }
 
 
 @router.get("/tickets", response_model=TicketPagination)
