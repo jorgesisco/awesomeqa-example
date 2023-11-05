@@ -14,20 +14,21 @@ const Home: NextPage = () => {
   };
 
   return (
-    <Box sx={{ flexGrow: 1, mt: 15, mb: 15, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "50vh" }}>
-      <Grid container spacing={-60} justifyContent="center" alignItems="center">
+    <Box sx={{ flexGrow: 1, mt: 15, mb: 15, display: "flex", height:"50vh"}}>
+    {/* <Box sx={{ flexGrow: 1, mt: 15, mb: 15, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "50vh" }}> */}
+      <Grid container justifyContent="center" alignItems="center">
       
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={3}>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
           <Link href="/knowledge"><CustomButton Icon={ArticleOutlinedIcon} label="Knowledge Base"/></Link>
           </Box>
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={3}>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
           <Link href="/tickets"><CustomButton Icon={SupportAgentOutlinedIcon} label="Tickets" /></Link>
           </Box>
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={3}>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
           <Link href="/faq"><CustomButton Icon={LightbulbOutlinedIcon} label="FaQ Insights"/></Link>
           </Box>
