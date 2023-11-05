@@ -132,9 +132,12 @@ const TicketsTable: React.FC = () => {
   ];
 
   useEffect(() => {
-    const url = 'http://0.0.0.0:5001/tickets';
+    // NOTE: Environment variables should typically be used for API endpoints.
+    // However, for the simplicity of this exercise and to avoid additional setup,
+    // the endpoint is hardcoded. This should be replaced with a variable in a production environment.
+    const url = 'http://0.0.0.0:5001/opentickets';
     const savedTickets = localStorage.getItem('tickets');
-    
+
     if (savedTickets) {
         setRows(JSON.parse(savedTickets));
         setLoading(false);
@@ -186,8 +189,10 @@ const TicketsTable: React.FC = () => {
         loading={loading}
         slots={{ toolbar: GridToolbar }}
       />
-      
-      {error && <div style={{ color: 'red' }}>Error: {error.message}</div>}
+      {
+      // Display error message if an error occurs and no data is loaded
+      error && <div style={{ color: 'red' }}>Error: {error.message}</div>
+      }
     </div>
   );
 };
