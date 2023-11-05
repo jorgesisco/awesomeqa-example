@@ -95,7 +95,7 @@ const TicketsTable: React.FC = () => {
   };
 
   const columns: GridColDef[] = [
-    // ... other columns definitions
+    
     {
       field: 'actions',
       headerName: '',
@@ -113,12 +113,10 @@ const TicketsTable: React.FC = () => {
       filterable: false,
     },
     { field: 'id', headerName: 'Ticket ID', width: 100 },
-    // { field: 'msg_id', headerName: 'Message ID', width: 150 },
     { field: 'status', headerName: 'Status', width: 80 },
     { field: 'resolved_by', headerName: 'Resolved By', width: 100 },
     { field: 'timestamp', headerName: 'Created Date', width: 180 },
     { field: 'message_content', headerName: 'Message', width: 500 },
-    // { field: 'message_link', headerName: 'Message Link', width: 180 },
     {
         field: 'message_link',
         headerName: 'Message Link',
@@ -131,44 +129,91 @@ const TicketsTable: React.FC = () => {
       }
   ];
 
-  useEffect(() => {
-    // NOTE: Environment variables should typically be used for API endpoints.
-    // However, for the simplicity of this exercise and to avoid additional setup,
-    // the endpoint is hardcoded. This should be replaced with a variable in a production environment.
-    const url = 'http://0.0.0.0:5001/opentickets';
-    const savedTickets = localStorage.getItem('tickets');
+//   useEffect(() => {
+//     // NOTE: Environment variables should typically be used for API endpoints.
+//     // However, for the simplicity of this exercise and to avoid additional setup,
+//     // the endpoint is hardcoded. This should be replaced with a variable in a production environment.
+//     const url = 'http://0.0.0.0:5001/opentickets?page=1&limit=100';
+//     const savedTickets = localStorage.getItem('tickets');
 
-    if (savedTickets) {
-        setRows(JSON.parse(savedTickets));
-        setLoading(false);
-    } else{
-        setLoading(true);
+//     if (savedTickets) {
+//         setRows(JSON.parse(savedTickets));
+//         setLoading(false);
+//     } else{
+//         setLoading(true);
 
-    fetchTickets(url)
-    .then(data => {
-        const ticketsData: Ticket[] = data.map((ticket: any) => ({
-            id: ticket.id,
-            msg_id: ticket.msg_id,
-            status: ticket.status,
-            resolved_by: ticket.resolved_by || 'N/A', // Fallback to 'N/A' if null
-            timestamp: new Date(ticket.timestamp).toLocaleString(), // Format the timestamp
-            message_content: ticket.message.content,
-            message_link: ticket.message.msg_url
-          }));
+//     fetchTickets(url)
+//     .then(data => {
+//         const ticketsData: Ticket[] = data.map((ticket: any) => ({
+//             id: ticket.id,
+//             msg_id: ticket.msg_id,
+//             status: ticket.status,
+//             resolved_by: ticket.resolved_by || 'N/A', // Fallback to 'N/A' if null
+//             timestamp: new Date(ticket.timestamp).toLocaleString(), // Format the timestamp
+//             message_content: ticket.message.content,
+//             message_link: ticket.message.msg_url
+//           }));
 
-        // Save to local storage if the data is valid
-        if (ticketsData.length > 0) {
-            localStorage.setItem('tickets', JSON.stringify(ticketsData));
-        }
+//         // Save to local storage if the data is valid
+//         if (ticketsData.length > 0) {
+//             localStorage.setItem('tickets', JSON.stringify(ticketsData));
+//         }
         
-        setRows(ticketsData); // Transform data here if needed
+//         setRows(ticketsData); // Transform data here if needed
+//         setLoading(false);
+//     })
+//     .catch(error => {
+//         setError(error);
+//         setLoading(false);
+//     });
+//     }
+// }, []);
+useEffect(() => {
+  // URL for API endpoint
+  const url = 'http://0.0.0.0:5001/opentickets?page=1&limit=100';
+  
+  // Retrieve tickets and the timestamp from localStorage
+  const savedTickets = localStorage.getItem('tickets');
+  const savedTimestamp = localStorage.getItem('ticketsTimestamp');
+  const now = Date.now();
+
+  // Set expiration duration to 20 seconds
+  const EXPIRATION_DURATION = 20 * 1000; // 20 seconds in milliseconds
+
+  // Determine if the saved data has expired
+  const isDataExpired = savedTimestamp ? now - parseInt(savedTimestamp, 10) > EXPIRATION_DURATION : true;
+
+  if (savedTickets && !isDataExpired) {
+    setRows(JSON.parse(savedTickets));
+    setLoading(false);
+  } else {
+    setLoading(true);
+    fetchTickets(url)
+      .then(data => {
+        const ticketsData: Ticket[] = data.map((ticket: any) => ({
+          id: ticket.id,
+          msg_id: ticket.msg_id,
+          status: ticket.status,
+          resolved_by: ticket.resolved_by || 'N/A', // Fallback to 'N/A' if null
+          timestamp: new Date(ticket.timestamp).toLocaleString(), // Format the timestamp
+          message_content: ticket.message.content,
+          message_link: ticket.message.msg_url
+        }));
+
+        if (ticketsData.length > 0) {
+          // Save the fetched data along with the current timestamp
+          localStorage.setItem('tickets', JSON.stringify(ticketsData));
+          localStorage.setItem('ticketsTimestamp', now.toString());
+        }
+
+        setRows(ticketsData);
         setLoading(false);
-    })
-    .catch(error => {
+      })
+      .catch(error => {
         setError(error);
         setLoading(false);
-    });
-    }
+      });
+  }
 }, []);
 
   return (
