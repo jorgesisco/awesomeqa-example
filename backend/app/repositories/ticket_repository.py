@@ -37,24 +37,28 @@ class TicketRepository:
         # Get tickets based on offset and limit
         tickets_data = self.get_tickets(limit=limit, offset=offset)
 
-        # Open tickets with message data
-        for ticket in tickets_data:
-            if ticket.get('status') == 'open':
-                msg_id = ticket.get('msg_id')
-                # Ensure msg_id is present before attempting to fetch message
-                if msg_id:
-                    # Retrieve the corresponding message
-                    message_data = self.get_message_by_id(msg_id)
-                    if message_data:
-                        ticket['message'] = message_data
-                else:
-                    # If there's no msg_id or the message is not found, set message to None
-                    ticket['message'] = None
-            else:
-                # For tickets that are not open, set message to None
-                ticket['message'] = None
+        # Create a new list containing only open tickets with message data
+        open_tickets_with_messages = [
+            self.append_message_to_ticket(ticket) for ticket in tickets_data if ticket.get('status') == 'open'
+        ]
 
-        return tickets_data
+        return open_tickets_with_messages
+
+    def append_message_to_ticket(self, ticket: dict) -> dict:
+        """
+        Appends message data to an open ticket, if a message ID is present.
+        """
+        msg_id = ticket.get('msg_id')
+        # Ensure msg_id is present before attempting to fetch message
+        if msg_id:
+            # Retrieve the corresponding message
+            message_data = self.get_message_by_id(msg_id)
+            ticket['message'] = message_data if message_data else None
+        else:
+            # If there's no msg_id, set message to None
+            ticket['message'] = None
+
+        return ticket
 
     def get_message_by_id(self, msg_id: str) -> dict:
         """Return a message by its ID found in ticket."""
