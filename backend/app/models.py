@@ -4,6 +4,12 @@ from pydantic import BaseModel, Field
 from typing import Optional, Dict, Any, List
 
 
+class Health(BaseModel):
+    """Health check response model"""
+    status: str = Field(examples=["OK"])
+    version: str = Field(examples=["0.1.0"])
+
+
 class Author(BaseModel):
     """Author of a message"""
     id: str
