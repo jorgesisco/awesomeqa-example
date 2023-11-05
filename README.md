@@ -1,5 +1,22 @@
 # Awesome ticket challenge
 
+## Overview
+This repository contains the code for the awesome ticket challenge.
+Including both backend and frontend.
+
+## Requirements
+### Backend
+- Python 3.8 or later
+- FastAPI 0.104.1
+- Uvicorn 0.23.2 as the ASGI server
+
+### Frontend
+- Node.js 16.x
+- npm 10.x
+- React 17.x
+- @mui/material
+
+## Getting Started
 ### Backend
 
 Steps to setup the backend environment:
@@ -9,6 +26,23 @@ Steps to setup the backend environment:
 3. Run `make setup`
 4. Run `make run`
 5. Try it by calling [http://localhost:5001/tickets](http://localhost:5001/tickets)
+6. API docs [http://localhost:5001/docs](http://localhost:5001/docs)
+
+**Note:** you can also run the endpoints using the API documentation
+
+#### Testing
+Some unittests and integration tests are included in the backend. To run them type:
+
+```bash
+pytest
+```
+
+#### Testing coverage
+If you want to check the testing coverage, run:
+
+```bash
+make coverage
+```
 
 ### Frontend
 
