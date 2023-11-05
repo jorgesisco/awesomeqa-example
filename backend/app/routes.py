@@ -44,7 +44,7 @@ async def get_open_tickets(
         ticket_repository: TicketRepository = Depends(lambda: ticket_repository)
 ):
     """
-    Return a list of open tickets with their messages
+    Return a list of open tickets with their respective messages based on msg_id
     from json file
     """
     return await get_paginated_tickets(
