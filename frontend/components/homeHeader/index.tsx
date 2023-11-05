@@ -14,11 +14,12 @@ const HomeHeader = () => {
           </Typography>
           </Link>
         </Box>
-        
-        <Link href="/"><Button color="inherit">Messages</Button></Link>
-        <Link href="/"><Button color="inherit">Tasks</Button></Link>
-        <Link href="/home"><Button variant="contained">Dashboard</Button></Link>
-        
+        <Box display="flex" flexGrow={0}>
+          <Link href="/"><Button color="inherit" sx={{ mr: 5 }}>Messages</Button></Link> {/* Margin right */}
+          <Link href="/"><Button color="inherit" sx={{ mr: 5 }}>Tasks</Button></Link> {/* Margin right */}
+          <Link href="/home"><Button variant="contained">Dashboard</Button></Link>
+        </Box>
+
       </Toolbar>
     </AppBar>
   );
