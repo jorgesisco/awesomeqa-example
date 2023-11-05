@@ -1,9 +1,9 @@
 """Routes module."""
+from fastapi import APIRouter, Request, Depends
 from app.config import ticket_repository
 from app.utils.rate_limit import limiter
 from app.models import TicketPagination, TicketWithMessagePagination, Health
 from app.repositories.ticket_repository import TicketRepository
-from fastapi import APIRouter, Request, Depends
 
 from app.utils.pagination import response_params, get_paginated_tickets
 
@@ -25,11 +25,11 @@ async def root(request: Request):
 async def get_tickets(
         request: Request,
         common: dict = Depends(response_params),
-        ticket_repository: TicketRepository = Depends(lambda: ticket_repository)
+        ticket_repo: TicketRepository = Depends(lambda: ticket_repository)
 ):
     """Return a list of tickets from json file."""
     return await get_paginated_tickets(
-        ticket_repository=ticket_repository,
+        ticket_repository=ticket_repo,
         page=common['page'],
         limit=common['limit'],
         with_messages=False
@@ -41,14 +41,14 @@ async def get_tickets(
 async def get_open_tickets(
         request: Request,
         common: dict = Depends(response_params),
-        ticket_repository: TicketRepository = Depends(lambda: ticket_repository)
+        ticket_repo: TicketRepository = Depends(lambda: ticket_repository)
 ):
     """
     Return a list of open tickets with their respective messages based on msg_id
     from json file
     """
     return await get_paginated_tickets(
-        ticket_repository=ticket_repository,
+        ticket_repository=ticket_repo,
         page=common['page'],
         limit=common['limit'],
         with_messages=True

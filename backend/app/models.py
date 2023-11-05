@@ -1,7 +1,7 @@
 """Models for the API"""
 from datetime import datetime
-from pydantic import BaseModel, Field
 from typing import Optional, Dict, Any, List
+from pydantic import BaseModel, Field
 
 
 class Health(BaseModel):
@@ -28,13 +28,25 @@ class Message(BaseModel):
     """
     id: str
     channel_id: str
-    parent_channel_id: Optional[str] = Field(None, alias='parent_channel_id')  # None is used if it can be null
+
+    parent_channel_id: Optional[str] = (
+        Field(default=None,
+        alias='parent_channel_id'))  # None is used if it can be null
+
     community_server_id: str
     timestamp: datetime
     has_attachment: bool
-    reference_msg_id: Optional[str] = Field(None, alias='reference_msg_id')  # None is used if it can be null
+
+    reference_msg_id: Optional[str] = (
+        Field(default=None,
+              alias='reference_msg_id'))  # None is used if it can be null
+
     timestamp_insert: datetime
-    discussion_id: Optional[str] = Field(None, alias='discussion_id')  # None is used if it can be null
+
+    discussion_id: Optional[str] = (
+        Field(default=None,
+              alias='discussion_id'))  # None is used if it can be null
+
     author_id: str
     content: str
     msg_url: str

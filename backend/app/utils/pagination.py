@@ -1,11 +1,11 @@
-"""Pagination support for API routes.
+"""
+Pagination support for API routes.
 
 This module provides utility functions for handling
 pagination logic, including generating response parameters
 and fetching paginated ticket data from the repository.
 """
 
-from http.client import HTTPException
 from app.models import TicketWithMessage, Ticket, TicketWithMessagePagination, TicketPagination
 from app.repositories.ticket_repository import TicketRepository
 from fastapi import HTTPException, Query
@@ -15,6 +15,7 @@ def response_params(
         page: int = Query(1, gt=0, description="Page number starting from 1"),
         limit: int = Query(20, gt=0, description="Number of tickets per page")
 ):
+    """Generate response parameters for paginated ticket data"""
     return {
         "page": page,
         "limit": limit,
@@ -22,8 +23,13 @@ def response_params(
     }
 
 
-async def get_paginated_tickets(ticket_repository: TicketRepository, page: int, limit: int,
+async def get_paginated_tickets(ticket_repository:
+                                TicketRepository,
+                                page: int,
+                                limit: int,
                                 with_messages: bool = False):
+    """Fetch paginated ticket data from the repository"""
+
     offset = (page - 1) * limit
     total_tickets = ticket_repository.count_items(field="tickets")
 

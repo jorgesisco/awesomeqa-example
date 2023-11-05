@@ -13,15 +13,17 @@ from app.utils.rate_limit import limiter
 
 
 def create_app() -> FastAPI:
+    """Create a FastAPI application."""
+
     # Initialize FastAPI application
-    app = FastAPI()
+    api = FastAPI()
 
     # Register the rate limit exceeded handler
-    app.state.limiter = limiter
-    app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+    api.state.limiter = limiter
+    api.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
     # Register CORS middleware to allow specific origins
-    app.add_middleware(
+    api.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],
         allow_credentials=True,
@@ -30,9 +32,9 @@ def create_app() -> FastAPI:
     )
 
     # Register router with views
-    app.include_router(router)
+    api.include_router(router)
 
-    return app
+    return api
 
 
 app = create_app()
