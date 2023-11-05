@@ -50,4 +50,8 @@ make coverage
 2. Run `make run`
 3. Open it: [http://localhost:3002](http://localhost:3002)
 
+**Note:** Ticket deletion are saved temporarily and will remain for 1 minute to facilitate testing. 
+Once this interval elapses, reloading the page will prompt the application to fetch fresh data, 
+eliminating the need to manually clear your browser's cookies or local storage.
+
 ### Happy coding 🎉
