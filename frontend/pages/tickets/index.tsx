@@ -16,7 +16,7 @@ const tickets: NextPage = () => {
       <Box sx={{ flexGrow: 1, mt: 15, mb: 15 }}>
         <Grid container spacing={3} justifyContent="center">
           <Grid item xs={12}>
-            <Box sx={{ display: "flex", justifyContent: "center", height: 550, maxWidth: '100%' }}>
+            <Box sx={{ display: "flex", justifyContent: "center", height: 750, maxWidth: '100%' }}>
             <TicketsTable />
             </Box>
           </Grid>
