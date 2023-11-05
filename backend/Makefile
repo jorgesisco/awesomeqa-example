@@ -13,3 +13,8 @@ setup: venv install
 
 run:
 	python -m app.main
+
+
+cover:
+	pytest --cov=app
+	coverage html
