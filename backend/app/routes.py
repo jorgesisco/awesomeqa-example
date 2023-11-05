@@ -1,6 +1,6 @@
 """Routes module."""
 from app.config import ticket_repository
-from app.models import TicketPagination, TicketWithMessagePagination
+from app.models import TicketPagination, TicketWithMessagePagination, Health
 from app.repositories.ticket_repository import TicketRepository
 from fastapi import APIRouter, Depends
 
@@ -9,10 +9,13 @@ from app.utils.pagination import response_params, get_paginated_tickets
 router = APIRouter()
 
 
-@router.get("/healthz")
+@router.get("/healthz", response_model=Health)
 async def root():
     """Health check endpoint."""
-    return {"status": "OK"}
+    return {
+            "status": "OK",
+            "version": "0.1.0"
+            }
 
 
 @router.get("/tickets", response_model=TicketPagination)
