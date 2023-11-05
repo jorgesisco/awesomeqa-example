@@ -1,7 +1,7 @@
 """Models for the API"""
 from datetime import datetime
-from typing import List, Optional
 from pydantic import BaseModel, Field
+from typing import Optional, List
 
 
 class Author(BaseModel):
@@ -46,12 +46,22 @@ class Ticket(BaseModel):
     ts_last_status_change: Optional[str] = None
     timestamp: datetime
     context_messages: List[str]
-    message: Optional[Message] = None
+    message: Optional[None] = Field(None)
 
 
-class Pagination(BaseModel):
+class TicketWithMessage(Ticket):
+    """Ticket with message that will be displayed to the requester"""
+    message: Optional[Message]
+
+
+class TicketPagination(BaseModel):
     """Pagination response model"""
-    total: int
-    page: int
-    limit: int
+    total: int = Field(examples=[200])
+    page: int = Field(examples=[1])
+    limit: int = Field(examples=[20])
     data: List[Ticket]
+
+
+class TicketWithMessagePagination(TicketPagination):
+    """Pagination response model"""
+    data: List[TicketWithMessage]
